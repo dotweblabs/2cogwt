@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<module rename-to="2coTest" >
+    <inherits name="com.dotweblabs.gwt.2co" />
+    <source path="client" />
+</module>
