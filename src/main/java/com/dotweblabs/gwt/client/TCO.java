@@ -23,8 +23,10 @@ import com.google.gwt.json.client.JSONObject;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 public class TCO {
-    public static native void loadPubKey(String pubKey)/*-{
-        $wnd.TCO.loadPubKey(pubKey);
+    public static native void loadPubKey(String pubKey, AsyncCallback<Void> callback)/*-{
+        $wnd.TCO.loadPubKey(pubKey, function() {
+            callback.@com.google.gwt.user.client.rpc.AsyncCallback::onSuccess(*)(null);
+        });
     }-*/;
     public static void requestToken(TokenRequest args, final AsyncCallback<TCOResponse> callback) {
         AsyncCallback<JavaScriptObject> aCallBack = new AsyncCallback<JavaScriptObject>() {

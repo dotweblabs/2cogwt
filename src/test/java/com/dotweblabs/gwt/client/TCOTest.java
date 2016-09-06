@@ -45,26 +45,35 @@ public class TCOTest extends GWTTestCase {
                 .setWindow(ScriptInjector.TOP_WINDOW)
                 .inject();
         log("Test Started");
-        TCO.loadPubKey("sandbox");
-        TokenRequest args = new TokenRequest();
-        args.setSellerId(TestData.SELLER_ID);
-        args.setPublishableKey(TestData.PUBLISHABLE_KEY);
-        args.setCcNo(TestData.SUCCESS_CCNO);
-        args.setCvv(TestData.CCV);
-        args.setExpMonth(TestData.EXP_MONTH);
-        args.setExpYear(TestData.EXP_YEAR);
-        TCO.requestToken(args, new AsyncCallback<TCOResponse>() {
+        TCO.loadPubKey("sandbox", new AsyncCallback<Void>() {
             @Override
-            public void onFailure(Throwable caught) {
-                log("Test Failed: " + caught.getMessage());
-                fail();
-                finishTest();
+            public void onFailure(Throwable throwable) {
+                log("Test Failed: " + throwable.getMessage());
             }
             @Override
-            public void onSuccess(TCOResponse response) {
-                finishTest();
-                log("Response: " + response.getResponse());
-                log("Test Complete: " + response.getResponse().getToken().getToken());
+            public void onSuccess(Void aVoid) {
+                log("Public Key ready");
+                TokenRequest args = new TokenRequest();
+                args.setSellerId(TestData.SELLER_ID);
+                args.setPublishableKey(TestData.PUBLISHABLE_KEY);
+                args.setCcNo(TestData.SUCCESS_CCNO);
+                args.setCvv(TestData.CCV);
+                args.setExpMonth(TestData.EXP_MONTH);
+                args.setExpYear(TestData.EXP_YEAR);
+                TCO.requestToken(args, new AsyncCallback<TCOResponse>() {
+                    @Override
+                    public void onFailure(Throwable caught) {
+                        log("Test Failed: " + caught.getMessage());
+                        fail();
+                        finishTest();
+                    }
+                    @Override
+                    public void onSuccess(TCOResponse response) {
+                        finishTest();
+                        log("Response: " + response.getResponse());
+                        log("Test Complete: " + response.getResponse().getToken().getToken());
+                    }
+                });
             }
         });
     }
